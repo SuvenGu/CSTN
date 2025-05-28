@@ -15,12 +15,10 @@ import torch
 
 from core.evaluate import accuracy
 import numpy as np
-from utils.SupCon import SupConLoss
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_recall_fscore_support
 from core.evaluate import F1Score,Recall,Precision
 from itertools import cycle
-from utils.SupCon import SupConLoss
 import torch.nn.functional as F
 from utils.ProLoss import PrototypeContrastiveLoss
 from utils.prototype_dist_estimator import prototype_dist_estimator

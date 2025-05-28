@@ -158,8 +158,8 @@ def main():
         targetdir.append(os.path.join(args.dataDir, i+"_points",config.DATASET.TRAIN_SET+"_"+i+".csv"))
 
     valdir =[]
-    for i in config.DATASET.VAL_DATASET:
-        valdir.append(os.path.join(args.dataDir, i+"_points",config.DATASET.VAL_SET+"_"+i+".csv"))
+    for i in config.DATASET.TEST_DATASET:
+        valdir.append(os.path.join(args.dataDir, i+"_points",config.DATASET.TEST_SET+"_"+i+".csv"))
 
     source_dataset = CropAttriMappingDataset(sourcedir,T=config.MODEL.T)
     source_loader = torch.utils.data.DataLoader(

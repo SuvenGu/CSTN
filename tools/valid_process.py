@@ -103,10 +103,6 @@ def parse_args():
                         help='data directory',
                         type=str,
                         default='')
-    parser.add_argument('--climateDir',
-                        help='climate directory',
-                        type=str,
-                        default='')
     parser.add_argument('--outLabelDir',
                         help='label directory',
                         type=str,
@@ -164,7 +160,6 @@ def main():
         
         img_name = os.path.join(args.dataDir,i)
         label_name = os.path.join(args.labelDir,i[:-4]+"_label.tif")
-        cond_name = os.path.join(args.climateDir,i[:-4]+"_terra.tif")
         out_path = os.path.join(args.outLabelDir,i[:-4]+"_pred.tif")
 
         # 如果labelDir不存在
@@ -183,87 +178,16 @@ def main():
         img = tifffile.imread(img_name).astype("float32")
 
 
-
-                # 如果climateDir不存在
-        if args.climateDir=='':
-            row,col = np.shape(img)[:2]
-            cond = torch.zeros((img.shape[0],img.shape[1],112))
-        else:
-            cond  = tifffile.imread(cond_name)
-            cond = torch.from_numpy(cond.astype("float32"))
-            resize_transform = transforms.Resize((img.shape[0],img.shape[1]),interpolation=InterpolationMode.NEAREST)
-            # Apply the Resize transform to the image
-            cond = torch.FloatTensor(resize_transform(cond.permute(2,0,1)).permute(1,2,0))
-
-        # # # # #美国
-        # conf = label_img[:,:,2]
-        # label = label_img[:,:,0]
-        # ## 取置信度高的样本计算精度
-        # # indices_conf_100 = np.where(conf== 100)
-        # # 取所有点
-        # indices_conf_100 = np.where(conf>-1)
-        # label = label[indices_conf_100]
-        # img = img[indices_conf_100].astype("float32")
-        # cond = cond[indices_conf_100]
-        # # label 标签转换  
-        # # 转换为玉米1 大豆4 水稻3 棉花2 其他 0
-        # label[(label==4)] =0
-        # label[(label==5)] =4
-        # label[(label>5)] =0
-        # # ##
-
-        # # # ###加拿大
-        # # 取置信度高的样本计算精度
-        # label = label_img
-        # # indices_conf_100 = np.where((label!=10) & (label!=120)) #剔除标签为云的样本点
-       
-        # # # 取所有点
-        # indices_conf_100 = np.where(label>-1)
-        # label = label[indices_conf_100]
-        # img = img[indices_conf_100].astype("float32")
-        # cond = cond[indices_conf_100]
-
-        # # ## label 标签转换  
-        # # # 转换为玉米1 大豆4 水稻3 棉花2 其他 0
-        # label[label==147]=1
-        # label[label==158]=4
-        # label[label>5]=0
-
-        # ####LN 辽宁 no
-        # ## 重采样标签
-        # label = torch.from_numpy(label_img.astype("int32")).unsqueeze(0).unsqueeze(0)
-        # resize_transform = transforms.Resize((img.shape[0],img.shape[1]),interpolation=InterpolationMode.NEAREST)
-        # # Apply the Resize transform to the image
-        # label = torch.IntTensor(resize_transform(label).squeeze()).numpy()
+        
         # 取所有点
         indices_conf_100 = np.where(label>-1)
         label = label[indices_conf_100]
         img = img[indices_conf_100].astype("float32")
-        cond = cond[indices_conf_100]
-        # ## label 标签转换  
-        # # 转换为玉米1 大豆4 水稻3 棉花2 其他 0
-        # # 原始0123分别代表水稻 玉米 大豆 其他
-        # label[label==2]=4
-        # label[label==0]=5
-        # label[label==3]=0
-        # label[label==5]=3
-
-        # # # GrandEst
-        # label = label_img
-        # indices_conf_100 = np.where(label>-1)
-        # label = label[indices_conf_100]
-        # img = img[indices_conf_100].astype("float32")
-        # cond = cond[indices_conf_100]
-        # # ## label 标签转换  
-        # # # 转换为玉米1 大豆4 水稻3 棉花2 其他 0
-        # label[label==1]=0
-        # label[label==2]=1
-        # label[label>2]=0
 
         if len(img)==0:
             continue
 
-        val_dataset = CropAttriIMGMappingDataset(img,label, cond,T=config.MODEL.T)
+        val_dataset = CropAttriIMGMappingDataset(img,label,T=config.MODEL.T)
         valid_loader = torch.utils.data.DataLoader(
             val_dataset,
             batch_size=4096*2, #4096*16

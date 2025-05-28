@@ -81,7 +81,7 @@ class Net(nn.Module):
         self.gru2 = StackedGRUWithDropout(256, hidden_size=128)
         self.attn = ScaledDotProductAttention(temperature=1)
 
-    def forward(self,x,ndvi=None):
+    def forward(self,x):
         x = x[:,:,:self.USE_T]
 
         out1= self.gru1(x.permute(0,2,1))
@@ -92,7 +92,7 @@ class Net(nn.Module):
         x_c = self.classifier(out3.flatten(1))
         out3= out3.reshape(out3.shape[0],-1)
 
-        return x_c,out1,out3,ndvi,A
+        return x_c,out1,out3,A
 
 
 

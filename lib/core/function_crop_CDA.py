@@ -42,7 +42,7 @@ def train(config, source_loader,target_loader,model, criterion, optimizer, epoch
     n_epoch = config.TRAIN.END_EPOCH
 
     loss_f1 = config.LOSS.PRO_F1
-    loss_f = config.LOSS.PRO_F
+    loss_f2 = config.LOSS.PRO_F2
 
     ## 设置伪标签flag
     pesudo_flag = config.PESUDO.FLAG
@@ -149,7 +149,7 @@ def train(config, source_loader,target_loader,model, criterion, optimizer, epoch
                                         labels=pesudo_label_mask)
     
                 tar_pesudo_len = sum(conf_mask)
-                loss =  loss + loss_f* loss_pes_weight*loss_feat
+                loss =  loss + loss_f2* loss_pes_weight*loss_feat
                 # loss =  loss + loss_f*loss_feat
 
 

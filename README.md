@@ -39,3 +39,7 @@ python tools/train.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --dataDir
 ```
 python tools/valid.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --testModel output/data/cls_CSTN-MO-IN_pes-pro-MF/model_best.pth.tar --dataDir data
 ```
+
+
+## Citation
+Peng S , Zhang L , Xie R ,et al.CSTN: A cross-region crop mapping method integrating self-training and contrastive domain adaptation[J].International Journal of Applied Earth Observation and Geoinformation, 2025, 136.DOI:10.1016/j.jag.2025.104379. 2025-2-10

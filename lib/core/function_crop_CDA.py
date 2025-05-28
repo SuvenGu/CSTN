@@ -63,7 +63,6 @@ def train(config, source_loader,target_loader,model, criterion, optimizer, epoch
     ## 使用源域数据初始化
     feat1_estimator = prototype_dist_estimator(feature_num=feature_num, cfg=config,proto =config.PROTO1,amount=config.AMOUNT )
     feat2_estimator = prototype_dist_estimator(feature_num=feature_num, cfg=config,proto =config.PROTO2,amount=config.AMOUNT )
-    # feat0_estimator = prototype_dist_estimator(feature_num=3, cfg=config)
 
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -96,11 +95,11 @@ def train(config, source_loader,target_loader,model, criterion, optimizer, epoch
 
         # training model using source data
         data_source = next(data_source_iter)
-        s_img, s_label, _,s_vi =data_source #s_vi: b,t,c
+        s_img, s_label =data_source #s_vi: b,t,c
         batch_size = len(s_label)
 
         # compute output
-        output_s,out1_s,out2_s,s_ndvi,_= model(s_img,s_vi[:,:,0:1])
+        output_s,out1_s,out2_s,_= model(s_img)
         s_label = s_label.cuda(non_blocking=True)
 
         loss_c = criterion(output_s, s_label) 
@@ -108,8 +107,8 @@ def train(config, source_loader,target_loader,model, criterion, optimizer, epoch
 
         # training model using target data
         data_target = next(data_target_iter)
-        t_img, _,_,t_vi = data_target
-        output_t,out1_t,out2_t,t_ndvi,_= model(t_img,t_vi[:,:,0:1])
+        t_img, _ = data_target
+        output_t,out1_t,out2_t,_= model(t_img)
 
         
         # 伪标签生成和处理

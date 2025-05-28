@@ -32,12 +32,12 @@ data/
 
 ## Train
 ```
-python tools/train.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --dataDir data
+python tools/train_CSTN.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --dataDir data
 ```
 
 ## Evaluate
 ```
-python tools/valid.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --testModel output/data/cls_CSTN-MO-IN_pes-pro-MF/model_best.pth.tar --dataDir data
+python tools/valid_CSTN.py --cfg experiments/cls_CSTN-MO-IN_pes-pro-MF.yaml --testModel output/data/cls_CSTN-MO-IN_pes-pro-MF/model_best.pth.tar --dataDir data
 ```
 
 

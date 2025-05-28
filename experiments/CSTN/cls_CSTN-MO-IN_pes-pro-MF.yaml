@@ -6,7 +6,7 @@ WORKERS: 8
 PRINT_FREQ: 200
 LOSS:
   PRO_F1: 1.0
-  PRO_F: 1.0
+  PRO_F2: 1.0
 
 PESUDO:
   FLAG: true

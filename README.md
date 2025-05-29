@@ -17,15 +17,15 @@ All experiments were executed on a NVIDIA GeForce RTX 3090.
 ## Setup Dataset
 * The format of the training set refers to `"data/IA_points"`.
 * The format of the test set refers to `"data/IN_points"`.
-* Sample data is shown in the CSV files.
+* Sample data is shown in the CSV files. The first column is the label.
 ```
 data/
 └── IA_points/
     ├── train_IA.csv
     └── test_IA.csv
 └── IN_points/
-    ├── train_MO.csv
-    └── test_MO.csv
+    ├── train_IN.csv
+    └── test_IN.csv
 └── ...
 ```
 

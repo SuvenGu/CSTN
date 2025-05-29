@@ -256,10 +256,10 @@ def validate(config, val_loader, model, criterion, output_dir, tb_log_dir,
 
     with torch.no_grad():
         end = time.time()
-        for i, (input, target, cond,vi) in enumerate(val_loader):
+        for i, (input, target) in enumerate(val_loader):
             # compute output
 
-            output,_,_,_,_= model(input,vi[:,:,0:1])
+            output,_,_,_= model(input)
 
             target = target.cuda(non_blocking=True)
 
@@ -336,10 +336,10 @@ def predict(config, val_loader, model,cm):
 
     with torch.no_grad():
         end = time.time()
-        for i, (input, target, cond,vi) in enumerate(val_loader):
+        for i, (input, target) in enumerate(val_loader):
             # compute output
 
-            output,_,_,_,_= model(input,vi[:,:,0:1])
+            output,_,_,_= model(input)
 
             target = target.cuda(non_blocking=True)
 
